@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.3+4" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.flutter-io.cn/flutter_plugin_android_lifecycle-1.0.6" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
