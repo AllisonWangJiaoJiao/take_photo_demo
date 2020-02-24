@@ -8,14 +8,17 @@ class TakePhotoPage extends StatefulWidget {
 }
 
 class _TakePhotoPageState extends State<TakePhotoPage> {
-  File _image;
+  // File _image;
+  ///记录每次选择的图片
+  List<File> _images = [];
   Future getImage(bool isTakePhoto) async {
     Navigator.pop(context);
     var image = await ImagePicker.pickImage(
         source: isTakePhoto ? ImageSource.camera :ImageSource.gallery
     );
     setState(() {
-      _image = image;
+      // _image = image;
+      _images.add(image);
     });
   }
 
@@ -26,9 +29,14 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
         title: Text('拍照功能'),
         ),
       body: Center(
-        child: _image == null
-            ? Text('No image selected.')
-            : Image.file(_image),
+        child: Container(
+          color: Colors.yellow,
+          child: Wrap(
+            spacing: 5,
+            runSpacing: 5,
+            children: _generateImages(),
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed:_pickImage,
@@ -63,5 +71,39 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
           onTap: () => getImage(isTakePhoto),
         ),
       );
+  }
+
+  /// 封装图片面板
+  _generateImages() {
+    return _images.map((file){
+      return Stack(
+        children: <Widget>[
+          ClipRRect(
+            //圆角效果
+            borderRadius: BorderRadius.circular(10),
+            child: Image.file(file,width: 120,height: 90,fit:BoxFit.fill),
+          ),
+          Positioned(
+            right: 5,
+            top: 5,
+            child: GestureDetector(
+              onTap: (){
+                setState(() {
+                  _images.remove(file);
+                });
+              },
+              child: ClipOval(
+                //圆角删除按钮
+                child: Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(color: Colors.black54),
+                  child: Icon(Icons.close,size: 20,color: Colors.white,),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }).toList();
   }
 }
