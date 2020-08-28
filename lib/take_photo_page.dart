@@ -11,16 +11,27 @@ class _TakePhotoPageState extends State<TakePhotoPage> {
   // File _image;
   ///记录每次选择的图片
   List<File> _images = [];
+//  List<PickedFile> _images = [];
   Future getImage(bool isTakePhoto) async {
     Navigator.pop(context);
-    var image = await ImagePicker.pickImage(
-        source: isTakePhoto ? ImageSource.camera :ImageSource.gallery
-    );
-    setState(() {
-      // _image = image;
-      _images.add(image);
-    });
+    try {
+      var image = await ImagePicker.pickImage(
+          source:isTakePhoto ? ImageSource.camera :ImageSource.gallery
+      );
+      if (image == null) {
+        return;
+      } else {
+        setState(() {
+          // _image = image;
+          _images.add(image);
+        });
+      }
+    } catch (e) {
+      print("模拟器不支持相机！");
+    }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
